@@ -17,6 +17,6 @@ kernel = np.ones((5,5),np.float32)/25
 convoluted_image = convolute(line_image, kernel)
 
 cv2.imshow('image', convoluted_image)
-cv2.imwrite('solution.jpeg', img)
+cv2.imwrite('solution.jpeg', convoluted_image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
