@@ -12,8 +12,10 @@ def convolute(image, kernel):
 image = cv2.imread('image.png', cv2.IMREAD_GRAYSCALE)
 line_image = np.zeros((512, 512), dtype='uint8')
 line_image = draw_line(line_image, (0, 0), (100, 100))
+cv2.imwrite('line.jpeg', line_image)
 
-kernel = np.ones((5,5),np.float32)/25
+kernel = line_image.astype(np.float32) / 255.0
+
 convoluted_image = convolute(line_image, kernel)
 
 cv2.imshow('image', convoluted_image)
