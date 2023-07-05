@@ -3,7 +3,7 @@ import numpy as np
 
 import numpy as np
 
-def draw_line(image, start, end, color=255, thickness=1):
+def draw_line(image, start, end, color=255):
     x0, y0 = start
     x1, y1 = end
     dx = abs(x1 - x0)
