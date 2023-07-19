@@ -5,8 +5,14 @@ def sobel_fil(img_gray):
     # Convert image to img_grayscale
         
     # Define Sobel kernels
-    sobel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-    sobel_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
+    sobel_x = np.array([
+        [1, 0, -1], 
+        [2, 0, -2], 
+        [1, 0, -1]])
+    sobel_y = np.array([
+        [1, 2, 1], 
+        [0, 0, 0], 
+        [-1, -2, -1]])
         
     # Apply Sobel kernels to the image
     grad_x = cv.filter2D(img_gray, -1, sobel_x)
@@ -29,23 +35,29 @@ def Frequency_D(img):
     magnitude = 16 * np.log(img)
     return magnitude
     
+def DotbyDot(img1, img2):
+    inF = img1
+    SobelF = img2
+    DotByDot = np.multiply(inF, SobelF)
+    DbD_img = np.fft.fftshift(DotByDot)
+    DbD_img = np.fft.fft2(DbD_img)
+    DbD_img = np.abs(DbD_img)
+    DbD_img = cv.normalize(DbD_img, None, 0, 255, cv.NORM_MINMAX, cv.CV_8U)
+    cv.imwrite('DbD_result.png', DbD_img)
 
-    
+
 img = cv.imread("Cat.png", cv.IMREAD_GRAYSCALE)
 sobel_fil(img)
 
 inF = cv.imread("Cat.png", cv.IMREAD_GRAYSCALE)
-cv.imwrite("In_F.png", Frequency_D(inF))
-
 SobelF = cv.imread("Sobel_out.png", cv.IMREAD_GRAYSCALE)
+
+cv.imwrite("In_F.png", Frequency_D(inF))
 cv.imwrite("Sobel_F.png", Frequency_D(SobelF))
 
-DotByDot = np.multiply(inF, SobelF)
-DbD_img = np.fft.ifftshift(DotByDot)
-DbD_img = np.fft.ifft2(DbD_img)
-DbD_img = np.abs(DbD_img)
-DbD_img = cv.normalize(DbD_img, None, 0, 255, cv.NORM_MINMAX, dtype=cv.CV_8U)
-cv.imwrite('DbD_result.png', DbD_img)
+inF = cv.imread("Cat.png", cv.IMREAD_GRAYSCALE)
+SobelF = cv.imread("Sobel_out.png", cv.IMREAD_GRAYSCALE)
+DotbyDot(inF, SobelF)
 
 
 #code check
