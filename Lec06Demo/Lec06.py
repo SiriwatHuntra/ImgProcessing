@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
 
-img = cv.imread("Cat.png", cv.IMREAD_GRAYSCALE)
+img = cv.imread("Cat.png", cv.IMREAD_img_graySCALE)
 
 #set data 2 32bits 
 img = img.astype(np.float32)
