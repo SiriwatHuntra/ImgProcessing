@@ -19,10 +19,33 @@ def sobel_fil(img_gray):
     grad = grad.astype(np.uint8)
     grad = cv.normalize(grad, None, 0, 255, cv.NORM_MINMAX)
 
-    cv.imwrite("OutPut.png", grad)
+    cv.imwrite("Sobel_out.png", grad)
+    return cv.imread("Sobel_out.png")
 
+def Frequency_D(img):
+    img = np.fft.fft2(img)
+    img = np.fft.fftshift(img)
+    img = np.abs(img)
+    magnitude = 16 * np.log(img)
+    return magnitude
+    
+
+    
 img = cv.imread("Cat.png", cv.IMREAD_GRAYSCALE)
 sobel_fil(img)
+
+inF = cv.imread("Cat.png", cv.IMREAD_GRAYSCALE)
+cv.imwrite("In_F.png", Frequency_D(inF))
+
+SobelF = cv.imread("Sobel_out.png", cv.IMREAD_GRAYSCALE)
+cv.imwrite("Sobel_F.png", Frequency_D(SobelF))
+
+DotByDot = np.multiply(inF, SobelF)
+DbD_img = np.fft.ifftshift(DotByDot)
+DbD_img = np.fft.ifft2(DbD_img)
+DbD_img = np.abs(DbD_img)
+DbD_img = cv.normalize(DbD_img, None, 0, 255, cv.NORM_MINMAX, dtype=cv.CV_8U)
+cv.imwrite('DbD_result.png', DbD_img)
 
 
 #code check
